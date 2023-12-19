@@ -21,12 +21,13 @@ class InvalidPasswordTest < UsersLogin
      get root_path
      assert flash.empty?     
   end
-end
+end                                 
 
 class ValidLogin < UsersLogin
   def setup
     super
-    post login_path, params: {session: {email: @user.email, password: 'password'}}
+    post login_path, params: { session: {email: @user.email, 
+                                        password: 'password'}}
   end
 end
 
@@ -35,6 +36,7 @@ class ValidLoginTest < ValidLogin
     assert is_logged_in?
     assert_redirected_to @user
   end
+
   test "redirect after login" do
     follow_redirect!
     assert_template 'users/show'
@@ -75,7 +77,7 @@ class RememberingTest < UsersLogin
 
   test "login with remembering" do
     log_in_as(@user, remember_me: '1')
-    assert_not cookies['remember me'], assigns(:user).remember_token
+    assert_not cookies[:remember_token].blank?
   end
   
   test "login without remembering" do
